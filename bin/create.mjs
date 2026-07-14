@@ -81,5 +81,7 @@ Next steps:
   5. Register the webhook (see README.md "Setup" section for the exact curl command).
 
 For local development (a second bot + ngrok tunnel), see the README's
-"Local development" section and .dev.vars.example.
+"Local development" section and .dev.vars.example. Note: ngrok requires a
+one-time \`ngrok config add-authtoken <token>\` (free account) before it
+will start tunnels.
 `);

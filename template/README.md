@@ -1,19 +1,8 @@
 # Cloudflare grammY bot
 
-A Telegram bot built with [grammY](https://grammy.dev/), deployed as a **Cloudflare Worker** and driven entirely by **Telegram webhooks**.
+A Telegram bot built with [grammY](https://grammy.dev/), deployed as a Cloudflare Worker, driven entirely by webhooks (no polling).
 
-This is a hello-world scaffold: `/start`, `/help`, and a plain-text echo. Everything else — commands, message handling, inline mode, whatever your bot actually does — is yours to build on top of `src/bot`.
-
-## Tech stack
-
-The project structure is the default scaffold produced by `wrangler init` (a plain Cloudflare Worker, TypeScript template); the bot logic itself is implemented with grammY, wired up in `src/bot`.
-
-- **Runtime**: [Cloudflare Workers](https://developers.cloudflare.com/workers/)
-- **Bot framework**: [grammY](https://grammy.dev/)
-- **Transport**: Telegram Bot API webhooks via grammY's `webhookCallback`
-- **Language**: TypeScript
-- **Testing**: [Vitest](https://vitest.dev/) + [`@cloudflare/vitest-pool-workers`](https://developers.cloudflare.com/workers/testing/vitest-integration/) (tests run against the actual `workerd` runtime)
-- **Tooling**: [Wrangler](https://developers.cloudflare.com/workers/wrangler/) for local dev (`wrangler dev`) and deployment (`wrangler deploy`)
+This is a hello-world scaffold: `/start`, `/help`, and a plain-text echo, wired up in `src/bot`. For everything past that — commands, message handling, keyboards, sessions, whatever your bot actually does — reference [grammY docs](https://grammy.dev/).
 
 ## Setup
 
@@ -34,7 +23,7 @@ See the [grammY Cloudflare Workers guide](https://grammy.dev/hosting/cloudflare-
 Local dev talks to Telegram through a tunnel, so it needs its own bot — reusing the production `BOT_TOKEN` would mean testing against the live bot, and `wrangler dev` never reads secrets from Cloudflare anyway (`env.BOT_TOKEN` only comes from `.dev.vars` or an explicit `--var`).
 
 1. Create a second bot with [@BotFather](https://t.me/BotFather) dedicated to local testing.
-2. Install [ngrok](https://ngrok.com/) and, optionally, reserve a static domain (free tier supports one) so the webhook URL doesn't change between runs.
+2. Install [ngrok](https://ngrok.com/) and authenticate it once with `ngrok config add-authtoken <token>` (from your [ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken) — a free account is enough; ngrok refuses to start tunnels without this). Optionally, reserve a static domain (free tier supports one) so the webhook URL doesn't change between runs.
 3. Copy `.dev.vars.example` to `.dev.vars` (gitignored) and fill in:
    ```
    DEV_BOT_TOKEN=<your dev bot's token>
@@ -48,13 +37,3 @@ Local dev talks to Telegram through a tunnel, so it needs its own bot — reusin
    Use `npm run dev:worker` instead if you just want plain `wrangler dev` without the ngrok/webhook automation.
 
 Running in dev mode (`MODE=development`) also logs every incoming `ctx.message` to the console before any handler runs, to make it easier to inspect what Telegram actually sent.
-
-## Features
-
-Bot responds to:
-
-1. `/start` - welcome message
-2. `/help` or `/commands` - list available commands
-3. Any other text - echoed back
-
-Replace `registerChatHandlers` in `src/bot/modes/chat.ts` with your own bot logic.

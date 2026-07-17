@@ -22,19 +22,31 @@ function fail(message) {
   process.exit(1);
 }
 
-const defaultName = process.argv[2] ?? PLACEHOLDER_NAME;
-const rl = createInterface({ input: process.stdin, output: process.stdout });
-const answer = (
-  await rl.question(`Package name (${defaultName}): `)
-).trim();
-rl.close();
-const packageName = answer || defaultName;
+const argName = process.argv[2];
+
+let packageName;
+if (argName) {
+  packageName = argName;
+} else if (!process.stdin.isTTY) {
+  fail(
+    "No package name given and no TTY to prompt on. Pass a name: npx create-cloudflare-grammy-bot <name>"
+  );
+} else {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const answer = (
+    await rl.question(`Package name (${PLACEHOLDER_NAME}): `)
+  ).trim();
+  rl.close();
+  packageName = answer || PLACEHOLDER_NAME;
+}
 
 // The folder always matches the package name, so the two never drift apart.
 const targetDir = path.resolve(process.cwd(), packageName);
 
 if (fs.existsSync(targetDir) && fs.readdirSync(targetDir).length > 0) {
-  fail(`"${packageName}" already exists and isn't empty. Pick another name or clear it out first.`);
+  fail(
+    `"${packageName}" already exists and isn't empty. Pick another name or clear it out first.`
+  );
 }
 
 fs.mkdirSync(targetDir, { recursive: true });
@@ -58,15 +70,24 @@ fs.writeFileSync(
 console.log(`\nScaffolded ${packageName} in ${targetDir}\n`);
 
 console.log("Installing dependencies (npm install)...");
-const install = spawnSync("npm", ["install"], { cwd: targetDir, stdio: "inherit" });
+const install = spawnSync("npm", ["install"], {
+  cwd: targetDir,
+  stdio: "inherit"
+});
 if (install.status !== 0) fail("npm install failed.");
 
 console.log("\nGenerating Cloudflare Workers types (npm run cf-typegen)...");
-const typegen = spawnSync("npm", ["run", "cf-typegen"], { cwd: targetDir, stdio: "inherit" });
+const typegen = spawnSync("npm", ["run", "cf-typegen"], {
+  cwd: targetDir,
+  stdio: "inherit"
+});
 if (typegen.status !== 0) fail("npm run cf-typegen failed.");
 
 console.log("\nInitializing git repository...");
-const gitInit = spawnSync("git", ["init"], { cwd: targetDir, stdio: "inherit" });
+const gitInit = spawnSync("git", ["init"], {
+  cwd: targetDir,
+  stdio: "inherit"
+});
 if (gitInit.status !== 0) fail("git init failed.");
 
 console.log(`

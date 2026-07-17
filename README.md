@@ -14,7 +14,7 @@ Scaffold a Telegram bot built with [grammY](https://grammy.dev/), deployed as a 
 npx create-cloudflare-grammy-bot
 ```
 
-You'll be prompted for a package name; that name becomes both the project folder and the `package.json`/`wrangler.jsonc` name, so folder and package can never drift apart. Pass a name as an argument to set the prompt's default instead of typing it:
+You'll be prompted for a package name; that name becomes both the project folder and the `package.json`/`wrangler.jsonc` name, so folder and package can never drift apart. Pass a name as an argument to skip the prompt:
 
 ```sh
 npx create-cloudflare-grammy-bot my-bot

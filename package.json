@@ -1,6 +1,6 @@
 {
   "name": "create-cloudflare-grammy-bot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Scaffold a Telegram bot built with grammY, deployed as a Cloudflare Worker.",
   "type": "module",
   "license": "ISC",

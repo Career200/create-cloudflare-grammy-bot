@@ -4,7 +4,14 @@
   "description": "Scaffold a Telegram bot built with grammY, deployed as a Cloudflare Worker.",
   "type": "module",
   "license": "ISC",
-  "keywords": ["grammy", "telegram", "cloudflare", "cloudflare-workers", "scaffold", "cli"],
+  "keywords": [
+    "grammy",
+    "telegram",
+    "cloudflare",
+    "cloudflare-workers",
+    "scaffold",
+    "cli"
+  ],
   "engines": {
     "node": ">=22"
   },

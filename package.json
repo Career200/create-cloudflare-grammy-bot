@@ -26,6 +26,6 @@
     "test:template": "cd template && npm install && npm test && npm run typecheck",
     "preversion": "npm run test:template",
     "release": "npm version",
-    "postversion": "git push --follow-tags"
+    "postversion": "git push --follow-tags && gh release create v$npm_package_version --generate-notes"
   }
 }

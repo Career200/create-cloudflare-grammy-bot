@@ -4,6 +4,10 @@
   "description": "Scaffold a Telegram bot built with grammY, deployed as a Cloudflare Worker.",
   "type": "module",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Career200/create-cloudflare-grammy-bot.git"
+  },
   "keywords": [
     "grammy",
     "telegram",

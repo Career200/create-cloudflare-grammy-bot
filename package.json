@@ -23,6 +23,9 @@
     "template"
   ],
   "scripts": {
-    "test:template": "cd template && npm install && npm test && npm run typecheck"
+    "test:template": "cd template && npm install && npm test && npm run typecheck",
+    "preversion": "npm run test:template",
+    "release": "npm version",
+    "postversion": "git push --follow-tags"
   }
 }
